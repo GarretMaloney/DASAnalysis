@@ -8,7 +8,7 @@ Loads processed .npz file from ProcessTDMS.py and performs:
   - Peak envelope analysis and strain transfer ratio (unfiltered + bandpass)
 
 Figures are saved to a 'figures' folder alongside 'processed'.
-Results are appended to a shared Excel file for cross-experiment comparison.
+Excel export is disabled in this exploratory residual-analysis variant.
 
 Edit the CONFIGURATION block for each run. No processing is redone.
 """
@@ -28,7 +28,7 @@ from scipy.interpolate import interp1d
 # ============================================================
 processed_directory = r'D:\Single Fiber Experiments\0.001hz\7V\processed'
 
-# Excel file that accumulates results across all runs
+# Excel path retained for later re-enable (currently unused)
 excel_path = r'D:\Single Fiber Experiments\StrainTransferResults.xlsx'
 
 # Frequency — set to float to override, None = auto from folder name, then FFT fallback
@@ -338,96 +338,6 @@ print(f"  {'Residual Bandpass':<22} {aOut_bp:>7.3f} μm {aIn_bp:>7.3f} μm {rati
 print("==============================================\n")
 
 # ============================================================
-# UPDATE EXCEL RESULTS FILE
+# EXCEL EXPORT (DISABLED FOR EXPLORATORY RUNS)
 # ============================================================
-from openpyxl import load_workbook, Workbook
-from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-from openpyxl.utils import get_column_letter
-
-if freq_val is None or voltage_val is None:
-    print(f"  WARNING: Could not parse freq/voltage from path ({freq_folder}/{vol_folder})")
-    print(f"  Excel not updated. Check folders are named like '1hz' and '7V'.")
-else:
-    print(f"  Logging to Excel: {freq_val} Hz / {voltage_val} V")
-
-    sheet_defs = {
-        'P-P Out (Unfiltered μm)': aOut_raw,
-        'P-P In (Unfiltered μm)':  aIn_raw,
-        'Ratio (Unfiltered)':       ratio_raw,
-        'P-P Out (Bandpass μm)':   aOut_bp,
-        'P-P In (Bandpass μm)':    aIn_bp,
-        'Ratio (Bandpass)':         ratio_bp,
-    }
-
-    header_fill  = PatternFill('solid', start_color='1F4E79')
-    header_font  = Font(bold=True, color='FFFFFF', name='Arial', size=11)
-    index_fill   = PatternFill('solid', start_color='D6E4F0')
-    index_font   = Font(bold=True, name='Arial', size=10)
-    body_font    = Font(name='Arial', size=10)
-    center_align = Alignment(horizontal='center', vertical='center')
-    thin         = Side(style='thin')
-    bdr          = Border(left=thin, right=thin, top=thin, bottom=thin)
-
-    def style_cell(cell, font=None, fill=None):
-        cell.alignment = center_align
-        cell.border    = bdr
-        if font: cell.font = font
-        if fill: cell.fill = fill
-
-    wb = load_workbook(excel_path) if os.path.exists(excel_path) else Workbook()
-    if 'Sheet' in wb.sheetnames and len(wb.sheetnames) == 1:
-        del wb['Sheet']
-
-    for sheet_name, value in sheet_defs.items():
-        if sheet_name not in wb.sheetnames:
-            ws = wb.create_sheet(sheet_name)
-            ws['A1'] = sheet_name
-            ws['A1'].font      = Font(bold=True, name='Arial', size=13, color='1F4E79')
-            ws['A1'].alignment = center_align
-            ws['A2'] = 'Freq (Hz) \\ Voltage (V)'
-            style_cell(ws['A2'], font=header_font, fill=header_fill)
-        else:
-            ws = wb[sheet_name]
-
-        # Find or create voltage column (row 2)
-        voltage_col = None
-        for col in range(2, ws.max_column + 2):
-            cell = ws.cell(row=2, column=col)
-            if cell.value == voltage_val:
-                voltage_col = col
-                break
-            elif cell.value is None:
-                cell.value = voltage_val
-                style_cell(cell, font=header_font, fill=header_fill)
-                voltage_col = col
-                break
-
-        # Find or create frequency row (col 1, starting row 3)
-        freq_row = None
-        for row in range(3, ws.max_row + 2):
-            cell = ws.cell(row=row, column=1)
-            if cell.value == freq_val:
-                freq_row = row
-                break
-            elif cell.value is None:
-                cell.value = freq_val
-                style_cell(cell, font=index_font, fill=index_fill)
-                freq_row = row
-                break
-
-        val_cell       = ws.cell(row=freq_row, column=voltage_col)
-        val_cell.value = round(value, 4) if not np.isnan(value) else 'N/A'
-        style_cell(val_cell, font=body_font)
-
-        # Auto-fit columns
-        for col in ws.columns:
-            max_len = max((len(str(c.value)) if c.value is not None else 0) for c in col)
-            ws.column_dimensions[get_column_letter(col[0].column)].width = max(max_len + 4, 14)
-
-        if ws.max_column > 1:
-            ws.merge_cells(start_row=1, start_column=1,
-                           end_row=1,   end_column=ws.max_column)
-            ws['A1'].alignment = center_align
-
-    wb.save(excel_path)
-    print(f"  Excel updated: {excel_path}")
+print("  Excel logging       : disabled (exploratory)")
