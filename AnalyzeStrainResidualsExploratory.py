@@ -338,7 +338,7 @@ if not show_plots:
 # ============================================================
 print("\n========== STRAIN TRANSFER SUMMARY ==========")
 print(f"  File                : {os.path.basename(npz_file)}")
-print("  Figure saving       : disabled (exploratory)")
+print(f"  Figure saving       : {'enabled' if save_figures else 'disabled (exploratory)'}")
 print(f"  Plot display        : {'enabled' if show_plots else 'disabled'}")
 print(f"  Auto frequency      : {Freq_auto:.5f} Hz")
 print(f"  Bandpass            : {bp_low:.5f} – {bp_high:.5f} Hz")
