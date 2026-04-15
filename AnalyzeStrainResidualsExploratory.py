@@ -7,8 +7,8 @@ Loads processed .npz file from ProcessTDMS.py and performs:
   - Mean displacement inside vs outside casing
   - Peak envelope analysis and strain transfer ratio (unfiltered + bandpass)
 
-Figures are saved to a 'figures' folder alongside 'processed'.
-Excel export is disabled in this exploratory residual-analysis variant.
+Exploratory mode: plots are shown interactively and no files are written.
+Excel export is disabled in this residual-analysis variant.
 
 Edit the CONFIGURATION block for each run. No processing is redone.
 """
@@ -34,7 +34,7 @@ excel_path = r'D:\Single Fiber Experiments\StrainTransferResults.xlsx'
 Freq = None
 
 # Exploratory plotting controls
-# show_plots=True displays figures on screen and keeps save disabled.
+# keep save_figures=False for look-only runs with no file output.
 show_plots = True
 save_figures = False
 
@@ -129,7 +129,8 @@ def parse_voltage(s):
 # ============================================================
 base_dir    = os.path.dirname(processed_directory.rstrip(os.sep))
 figures_dir = os.path.join(base_dir, 'figures')
-os.makedirs(figures_dir, exist_ok=True)
+if save_figures:
+    os.makedirs(figures_dir, exist_ok=True)
 
 # Parse freq and voltage from path
 path_parts  = processed_directory.replace('\\', '/').split('/')
@@ -195,45 +196,50 @@ print(f"  Bandpass: {bp_low:.5f} – {bp_high:.5f} Hz")
 # ============================================================
 # WATERFALL — downsampled for memory safety
 # ============================================================
-# wf_step = max(1, int(np.ceil(L / waterfall_max_samples)))
-# wf_data = subdata[:, ::wf_step].astype(np.float32)   # [ch x time_ds]
-# wf_t    = t[::wf_step]
-# if wf_step > 1:
-#     print(f"  Waterfall downsampled by {wf_step}x for plotting ({wf_data.shape[1]} samples)")
-#
-# wf_filt = bandpass(wf_data.astype(np.float64), fs_d / wf_step, bp_low, bp_high, bp_order)
-print("  Waterfall decimation and waterfall figures are disabled for exploratory residual analysis.")
+wf_step = max(1, int(np.ceil(L / waterfall_max_samples)))
+wf_data = subdata[:, ::wf_step].astype(np.float32)   # [ch x time_ds]
+wf_t    = t[::wf_step]
+if wf_step > 1:
+    print(f"  Waterfall downsampled by {wf_step}x for plotting ({wf_data.shape[1]} samples)")
+
+wf_filt = bandpass(wf_data.astype(np.float64), fs_d / wf_step, bp_low, bp_high, bp_order)
 
 # ============================================================
 # FIGURE 1 — Strain Rate Waterfall
 # ============================================================
-# fig1 = plt.figure(figsize=(12, 6))
-# plt.imshow(wf_data, aspect='auto', cmap='jet',
-#            extent=[wf_t[0], wf_t[-1], depth_axis[-1], depth_axis[0]],
-#            vmin=np.nanpercentile(wf_data, 2),
-#            vmax=np.nanpercentile(wf_data, 98))
-# plt.colorbar(label='Strain Rate (nm/sec)')
-# plt.xlabel('Time (s)'); plt.ylabel('Depth (m)')
-# plt.title('Strain Rate Waterfall')
-# plt.tight_layout()
-# savefig(fig1, figures_dir, 'fig1_strain_rate_waterfall.png')
+fig1 = plt.figure(figsize=(12, 6))
+plt.imshow(wf_data, aspect='auto', cmap='jet',
+           extent=[wf_t[0], wf_t[-1], depth_axis[-1], depth_axis[0]],
+           vmin=np.nanpercentile(wf_data, 2),
+           vmax=np.nanpercentile(wf_data, 98))
+plt.colorbar(label='Strain Rate (nm/sec)')
+plt.xlabel('Time (s)'); plt.ylabel('Depth (m)')
+plt.title('Strain Rate Waterfall')
+plt.tight_layout()
+if save_figures:
+    savefig(fig1, figures_dir, 'fig1_strain_rate_waterfall.png')
+elif not show_plots:
+    plt.close(fig1)
 
 # ============================================================
 # FIGURE 2 — Filtered Strain Waterfall
 # ============================================================
-# fig2 = plt.figure(figsize=(12, 6))
-# plt.imshow(wf_filt, aspect='auto', cmap='jet',
-#            extent=[wf_t[0], wf_t[-1], depth_axis[-1], depth_axis[0]],
-#            vmin=np.nanpercentile(wf_filt, 2),
-#            vmax=np.nanpercentile(wf_filt, 98))
-# plt.colorbar(label='Strain (μm)')
-# plt.xlabel('Time (s)'); plt.ylabel('Depth (m)')
-# plt.title(f'Strain Waterfall (Bandpass {bp_low:.5f}–{bp_high:.5f} Hz)')
-# plt.tight_layout()
-# savefig(fig2, figures_dir, 'fig2_strain_waterfall_filtered.png')
+fig2 = plt.figure(figsize=(12, 6))
+plt.imshow(wf_filt, aspect='auto', cmap='jet',
+           extent=[wf_t[0], wf_t[-1], depth_axis[-1], depth_axis[0]],
+           vmin=np.nanpercentile(wf_filt, 2),
+           vmax=np.nanpercentile(wf_filt, 98))
+plt.colorbar(label='Strain (μm)')
+plt.xlabel('Time (s)'); plt.ylabel('Depth (m)')
+plt.title(f'Strain Waterfall (Bandpass {bp_low:.5f}–{bp_high:.5f} Hz)')
+plt.tight_layout()
+if save_figures:
+    savefig(fig2, figures_dir, 'fig2_strain_waterfall_filtered.png')
+elif not show_plots:
+    plt.close(fig2)
 
 # Free waterfall arrays
-# del wf_data, wf_filt
+del wf_data, wf_filt
 
 # ============================================================
 # FIGURE 3 — FFT Amplitude Spectrum
