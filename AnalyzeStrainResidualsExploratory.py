@@ -18,7 +18,6 @@ import re
 import glob
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.signal import detrend, butter, sosfiltfilt, find_peaks
 from scipy.interpolate import interp1d
@@ -33,6 +32,16 @@ excel_path = r'D:\Single Fiber Experiments\StrainTransferResults.xlsx'
 
 # Frequency — set to float to override, None = auto from folder name, then FFT fallback
 Freq = None
+
+# Exploratory plotting controls
+# show_plots=True displays figures on screen and keeps save disabled.
+show_plots = True
+save_figures = False
+
+# Set to True only for headless runs where GUI plotting is unavailable.
+force_agg_backend = False
+if force_agg_backend:
+    matplotlib.use('Agg')
 
 # Channel ranges for inside/outside comparison
 outside_range = range(95,  105)
@@ -249,7 +258,8 @@ plt.title('Amplitude Spectrum — Outside Mean Displacement')
 plt.xlim([0, fmax_show]); plt.ylim([0, ymax])
 plt.legend(); plt.grid(True); plt.tight_layout()
 # savefig(fig3, figures_dir, 'fig3_fft_spectrum.png')
-plt.close(fig3)
+if not show_plots:
+    plt.close(fig3)
 
 # ============================================================
 # FIGURE 4 — Mean Displacement: Unfiltered vs Bandpass
@@ -280,7 +290,8 @@ axes[1].set_title(f'Residual Bandpass {bp_low:.5f}–{bp_high:.5f} Hz')
 axes[1].legend(); axes[1].grid(True)
 plt.tight_layout()
 # savefig(fig4, figures_dir, 'fig4_mean_displacement.png')
-plt.close(fig4)
+if not show_plots:
+    plt.close(fig4)
 
 # ============================================================
 # FIGURE 5 — Envelopes: Unfiltered vs Bandpass
@@ -319,7 +330,8 @@ axes[1].set_title(f'Residual bandpass {bp_low:.5f}–{bp_high:.5f} Hz — P-P Ou
 axes[1].legend(ncol=2); axes[1].grid(True)
 plt.tight_layout()
 # savefig(fig5, figures_dir, 'fig5_envelopes.png')
-plt.close(fig5)
+if not show_plots:
+    plt.close(fig5)
 
 # ============================================================
 # SUMMARY
@@ -327,6 +339,7 @@ plt.close(fig5)
 print("\n========== STRAIN TRANSFER SUMMARY ==========")
 print(f"  File                : {os.path.basename(npz_file)}")
 print("  Figure saving       : disabled (exploratory)")
+print(f"  Plot display        : {'enabled' if show_plots else 'disabled'}")
 print(f"  Auto frequency      : {Freq_auto:.5f} Hz")
 print(f"  Bandpass            : {bp_low:.5f} – {bp_high:.5f} Hz")
 print(f"  Outside channels    : {list(outside_range)}")
@@ -341,3 +354,7 @@ print("==============================================\n")
 # EXCEL EXPORT (DISABLED FOR EXPLORATORY RUNS)
 # ============================================================
 print("  Excel logging       : disabled (exploratory)")
+
+# Keep exploratory plots visible at the end of script execution.
+if show_plots:
+    plt.show()
