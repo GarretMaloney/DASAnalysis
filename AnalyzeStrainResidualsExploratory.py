@@ -37,22 +37,44 @@ Freq = None
 show_plots = True
 save_figures = False
 
+# Plot backend mode for interactive display:
+#   'inline'  -> render in Spyder Plots pane (recommended on managed PCs)
+#   'window'  -> pop-up GUI windows (Qt/Tk backend)
+#   'auto'    -> infer based on environment/backends
+plot_backend_mode = 'inline'
+
+# Limit points drawn in line plots to keep UI responsive.
+# Analysis is still computed on full-resolution data.
+max_line_plot_points = 50000
+
 # Set to True only for headless runs where GUI plotting is unavailable.
 force_agg_backend = False
 if force_agg_backend:
     matplotlib.use('Agg', force=True)
 elif show_plots:
-    # Spyder can occasionally run with a non-interactive backend (e.g., Agg).
-    # Prefer QtAgg first, then try other GUI backends.
-    backend_name = str(matplotlib.get_backend()).lower()
-    if 'agg' in backend_name:
-        for candidate in ('QtAgg', 'Qt5Agg', 'TkAgg'):
-            try:
-                matplotlib.use(candidate, force=True)
-                print(f"  Switched matplotlib backend to {candidate} for interactive plots")
-                break
-            except Exception:
-                continue
+    def _try_backend(name):
+        try:
+            matplotlib.use(name, force=True)
+            print(f"  Using matplotlib backend: {name}")
+            return True
+        except Exception:
+            return False
+
+    if plot_backend_mode == 'inline':
+        # Most robust in Spyder; avoids frozen external GUI windows.
+        if not _try_backend('module://matplotlib_inline.backend_inline'):
+            _try_backend('QtAgg') or _try_backend('Qt5Agg') or _try_backend('TkAgg')
+    elif plot_backend_mode == 'window':
+        _try_backend('QtAgg') or _try_backend('Qt5Agg') or _try_backend('TkAgg')
+    else:
+        backend_name = str(matplotlib.get_backend()).lower()
+        if 'agg' in backend_name:
+            # In Spyder sessions, prefer inline first if backend is non-interactive.
+            spyder_session = any(k.startswith('SPYDER') for k in os.environ)
+            if spyder_session:
+                _try_backend('module://matplotlib_inline.backend_inline') or _try_backend('QtAgg') or _try_backend('Qt5Agg') or _try_backend('TkAgg')
+            else:
+                _try_backend('QtAgg') or _try_backend('Qt5Agg') or _try_backend('TkAgg')
 
 import matplotlib.pyplot as plt
 
@@ -174,6 +196,10 @@ nch        = subdata.shape[0]
 L          = subdata.shape[1]
 t          = np.arange(L) / fs_d
 depth_axis = np.arange(ch_start, ch_stop) * spatial_res
+line_plot_step = max(1, int(np.ceil(L / max_line_plot_points)))
+tp = t[::line_plot_step]
+if line_plot_step > 1:
+    print(f"  Line plots downsampled by {line_plot_step}x for display ({tp.size} points)")
 
 outside_idx = np.array([i - ch_start for i in outside_range if ch_start <= i < ch_start + nch])
 inside_idx  = np.array([i - ch_start for i in inside_range  if ch_start <= i < ch_start + nch])
@@ -297,16 +323,16 @@ DispOut_filt = bandpass(DispOut_res, fs_d, bp_low, bp_high, bp_order)
 DispIn_filt  = bandpass(DispIn_res,  fs_d, bp_low, bp_high, bp_order)
 
 fig4, axes = plt.subplots(2, 1, figsize=(10, 7), sharex=True)
-axes[0].plot(t, DispOut_res, label='Outside residual')
-axes[0].plot(t, DispIn_res, label='Inside residual')
+axes[0].plot(tp, DispOut_res[::line_plot_step], label='Outside residual')
+axes[0].plot(tp, DispIn_res[::line_plot_step], label='Inside residual')
 axes[0].set_ylabel('Displacement (μm)')
 axes[0].set_title(f'Mean Displacement Residual (tone removed at {Freq_auto:.5f} Hz)')
-axes[0].legend(); axes[0].grid(True)
-axes[1].plot(t, DispOut_filt, label='Outside')
-axes[1].plot(t, DispIn_filt,  label='Inside')
+axes[0].legend(loc='upper right'); axes[0].grid(True)
+axes[1].plot(tp, DispOut_filt[::line_plot_step], label='Outside')
+axes[1].plot(tp, DispIn_filt[::line_plot_step],  label='Inside')
 axes[1].set_ylabel('Displacement (μm)'); axes[1].set_xlabel('Time (s)')
 axes[1].set_title(f'Residual Bandpass {bp_low:.5f}–{bp_high:.5f} Hz')
-axes[1].legend(); axes[1].grid(True)
+axes[1].legend(loc='upper right'); axes[1].grid(True)
 plt.tight_layout()
 # savefig(fig4, figures_dir, 'fig4_mean_displacement.png')
 if not show_plots:
@@ -329,24 +355,24 @@ ratio_raw = aIn_raw / aOut_raw if aOut_raw > 0 else np.nan
 ratio_bp  = aIn_bp  / aOut_bp  if aOut_bp  > 0 else np.nan
 
 fig5, axes = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
-axes[0].plot(t, dDispOut,  'b',   label='Outside (detrended)')
-axes[0].plot(t, upOut_raw, 'b--', label='Upper Env Out')
-axes[0].plot(t, loOut_raw, 'b--')
-axes[0].plot(t, dDispIn,   'r',   label='Inside (detrended)')
-axes[0].plot(t, upIn_raw,  'r--', label='Upper Env In')
-axes[0].plot(t, loIn_raw,  'r--')
+axes[0].plot(tp, dDispOut[::line_plot_step],  'b',   label='Outside (detrended)')
+axes[0].plot(tp, upOut_raw[::line_plot_step], 'b--', label='Upper Env Out')
+axes[0].plot(tp, loOut_raw[::line_plot_step], 'b--')
+axes[0].plot(tp, dDispIn[::line_plot_step],   'r',   label='Inside (detrended)')
+axes[0].plot(tp, upIn_raw[::line_plot_step],  'r--', label='Upper Env In')
+axes[0].plot(tp, loIn_raw[::line_plot_step],  'r--')
 axes[0].set_ylabel('Displacement (μm)')
 axes[0].set_title(f'Residual (tone removed) — P-P Out: {aOut_raw:.3f} μm | P-P In: {aIn_raw:.3f} μm | Ratio: {ratio_raw:.4f} ({ratio_raw*100:.1f}%)')
-axes[0].legend(ncol=2); axes[0].grid(True)
-axes[1].plot(t, DispOut_filt, 'b',   label='Outside (bandpass)')
-axes[1].plot(t, upOut_bp,     'b--', label='Upper Env Out')
-axes[1].plot(t, loOut_bp,     'b--')
-axes[1].plot(t, DispIn_filt,  'r',   label='Inside (bandpass)')
-axes[1].plot(t, upIn_bp,      'r--', label='Upper Env In')
-axes[1].plot(t, loIn_bp,      'r--')
+axes[0].legend(ncol=2, loc='upper right'); axes[0].grid(True)
+axes[1].plot(tp, DispOut_filt[::line_plot_step], 'b',   label='Outside (bandpass)')
+axes[1].plot(tp, upOut_bp[::line_plot_step],     'b--', label='Upper Env Out')
+axes[1].plot(tp, loOut_bp[::line_plot_step],     'b--')
+axes[1].plot(tp, DispIn_filt[::line_plot_step],  'r',   label='Inside (bandpass)')
+axes[1].plot(tp, upIn_bp[::line_plot_step],      'r--', label='Upper Env In')
+axes[1].plot(tp, loIn_bp[::line_plot_step],      'r--')
 axes[1].set_ylabel('Displacement (μm)'); axes[1].set_xlabel('Seconds')
 axes[1].set_title(f'Residual bandpass {bp_low:.5f}–{bp_high:.5f} Hz — P-P Out: {aOut_bp:.3f} μm | P-P In: {aIn_bp:.3f} μm | Ratio: {ratio_bp:.4f} ({ratio_bp*100:.1f}%)')
-axes[1].legend(ncol=2); axes[1].grid(True)
+axes[1].legend(ncol=2, loc='upper right'); axes[1].grid(True)
 plt.tight_layout()
 # savefig(fig5, figures_dir, 'fig5_envelopes.png')
 if not show_plots:
@@ -359,6 +385,7 @@ print("\n========== STRAIN TRANSFER SUMMARY ==========")
 print(f"  File                : {os.path.basename(npz_file)}")
 print(f"  Figure saving       : {'enabled' if save_figures else 'disabled (exploratory)'}")
 print(f"  Plot display        : {'enabled' if show_plots else 'disabled'}")
+print(f"  Plot backend mode   : {plot_backend_mode}")
 print(f"  Auto frequency      : {Freq_auto:.5f} Hz")
 print(f"  Bandpass            : {bp_low:.5f} – {bp_high:.5f} Hz")
 print(f"  Outside channels    : {list(outside_range)}")
