@@ -18,7 +18,6 @@ import re
 import glob
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
 from scipy.signal import detrend, butter, sosfiltfilt, find_peaks
 from scipy.interpolate import interp1d
 
@@ -41,7 +40,21 @@ save_figures = False
 # Set to True only for headless runs where GUI plotting is unavailable.
 force_agg_backend = False
 if force_agg_backend:
-    matplotlib.use('Agg')
+    matplotlib.use('Agg', force=True)
+elif show_plots:
+    # Spyder can occasionally run with a non-interactive backend (e.g., Agg).
+    # Prefer QtAgg first, then try other GUI backends.
+    backend_name = str(matplotlib.get_backend()).lower()
+    if 'agg' in backend_name:
+        for candidate in ('QtAgg', 'Qt5Agg', 'TkAgg'):
+            try:
+                matplotlib.use(candidate, force=True)
+                print(f"  Switched matplotlib backend to {candidate} for interactive plots")
+                break
+            except Exception:
+                continue
+
+import matplotlib.pyplot as plt
 
 # Channel ranges for inside/outside comparison
 outside_range = range(95,  105)
