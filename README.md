@@ -2,7 +2,7 @@
 
 *Thesis research on how borehole coupling controls fiber-optic strain sensitivity.*
 
-Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer under controlled borehole conditions: the same 7 V displacement drive is applied at two frequencies (**1 Hz** and **0.001 Hz**), with two coupling regimes — **gravity alone** versus an **air-inflated FLUTe liner at 5 psi**. The scripts process OptaSense TDMS recordings and produce the waterfalls, spectra, displacement traces, and strain-transfer ratios shown below.
+Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer under controlled borehole conditions: the same displacement is applied at two frequencies (**1 Hz** and **0.001 Hz**), with two coupling regimes — **gravity alone** versus an **air-inflated FLUTe liner at 5 psi**. The scripts process TDMS recordings and produce the waterfalls, spectra, displacement traces, and strain-transfer ratios shown below.
 
 ## Experiment design
 
