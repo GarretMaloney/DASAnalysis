@@ -2,7 +2,7 @@
 
 *Thesis research on how borehole coupling controls fiber-optic strain sensitivity.*
 
-Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer in a laboratory well-casing analog: a controlled axial strain is applied to PVC “casing,” while multiple fiber cables inside the pipe are interrogated simultaneously. Coupling is varied between **gravity seating alone** and an **air-inflated FLUTe liner** that presses the cables against the wall. Example results below compare the same 7 V drive at **1 Hz** and **0.001 Hz**.
+Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer in a laboratory well-casing analog: a controlled axial strain is applied to PVC “casing,” while multiple fiber cables inside the pipe are interrogated simultaneously. Coupling is varied between **gravity seating alone** and an **air-inflated liner** that presses the cables against the wall. Example results below compare the same 7 V drive at **1 Hz** and **0.001 Hz**.
 
 Setup photographs will be added here once available.
 
@@ -30,8 +30,8 @@ In the analysis figures, section labels (**Reference**, **Yellow**, **Green**, *
 ### Coupling configurations (Experiment 1)
 
 - **Gravity (uncoupled).** Cables rest in the PVC under their own weight.
-- **FLUTe liner.** An air-inflated FLUTe liner at **6.89476 kPa (~1 psi)** presses the cables against the PVC wall.
-- **Tube-in-tube (additional config).** A ~2 in PVC tube inside the 4 in section, with cables inserted through a longitudinal slot, simulates fiber inside coiled tubing. Example figures below focus on gravity vs FLUTe.
+- **Air-inflated liner.** A liner inflated to **5 psi** presses the cables against the PVC wall.
+- **Tube-in-tube (additional config).** A ~2 in PVC tube inside the 4 in section, with cables inserted through a longitudinal slot, simulates fiber inside coiled tubing. Example figures below focus on gravity vs the air-inflated liner.
 
 A second experiment (cables epoxied to the pipe) isolates cable-construction effects under near-ideal coupling and is outside the figure sets shown here.
 
@@ -41,12 +41,12 @@ Strain rate is recorded with a **Silixa iDAS** at **1 kHz**, **10 m** gauge leng
 
 ## Example figure sets
 
-The committed figures are from gravity vs FLUTe-coupled runs at **7 V** generator amplitude (lab folder names retained under `figures/`):
+The committed figures are from gravity vs liner-coupled runs at **7 V** generator amplitude:
 
 | Condition | Coupling | Drive frequency | Figure set |
 |-----------|----------|-----------------|------------|
-| FLUTe liner | Inflated liner | 1 Hz | [`figures/flute_5psi_1hz_7v/`](figures/flute_5psi_1hz_7v/) |
-| FLUTe liner | Inflated liner | 0.001 Hz (1 mHz) | [`figures/flute_5psi_0.001hz_7v/`](figures/flute_5psi_0.001hz_7v/) |
+| Air-inflated liner | 5 psi | 1 Hz | [`figures/liner_5psi_1hz_7v/`](figures/liner_5psi_1hz_7v/) |
+| Air-inflated liner | 5 psi | 0.001 Hz (1 mHz) | [`figures/liner_5psi_0.001hz_7v/`](figures/liner_5psi_0.001hz_7v/) |
 | Gravity | Gravity seating only | 1 Hz | [`figures/gravity_1hz_7v/`](figures/gravity_1hz_7v/) |
 | Gravity | Gravity seating only | 0.001 Hz (1 mHz) | [`figures/gravity_0.001hz_7v/`](figures/gravity_0.001hz_7v/) |
 
@@ -56,40 +56,40 @@ Strain-transfer ratio = peak-to-peak displacement of a test section ÷ simultane
 
 DAS records **strain rate** along the fiber as a function of depth and time. Waterfall plots make that field visible: horizontal bands mark cable sections, and vertical striping shows the imposed oscillation.
 
-**1 Hz, FLUTe-coupled** — strong, localized response at each section over ~65 s:
+**1 Hz, air-inflated liner (5 psi)** — strong, localized response at each section over ~65 s:
 
-![Strain rate waterfall, FLUTe, 1 Hz](figures/flute_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
+![Strain rate waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
 
-**0.001 Hz, FLUTe-coupled** — same sections, period ~1000 s, multi-hour record:
+**0.001 Hz, air-inflated liner (5 psi)** — same sections, period ~1000 s, multi-hour record:
 
-![Strain rate waterfall, FLUTe, 0.001 Hz](figures/flute_5psi_0.001hz_7v/fig1_strain_rate_waterfall.png)
+![Strain rate waterfall, liner 5 psi, 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig1_strain_rate_waterfall.png)
 
 ## Coupling force and strain sensitivity
 
 Holding frequency and drive voltage fixed, coupling changes how much of the reference motion appears on the test cables.
 
-### 1 Hz — gravity vs FLUTe
+### 1 Hz — gravity vs air-inflated liner
 
-Under gravity alone, most of the fiber is quiet away from the reference zone. With the liner, every tagged section carries a clear 1 Hz signature.
+Under gravity alone, most of the fiber is quiet away from the reference zone. With the liner at 5 psi, every tagged section carries a clear 1 Hz signature.
 
 **Gravity (1 Hz):**
 
 ![Strain rate waterfall, gravity, 1 Hz](figures/gravity_1hz_7v/fig1_strain_rate_waterfall.png)
 
-**FLUTe-coupled (1 Hz):**
+**Air-inflated liner, 5 psi (1 Hz):**
 
-![Strain rate waterfall, FLUTe, 1 Hz](figures/flute_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
+![Strain rate waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
 
 Channel amplitude profiles make the same point spatially. Under gravity, amplitude concentrates near the reference (~25 µm) and collapses elsewhere. With the liner, each cable section forms a clear plateau, with Green/Blue exceeding the reference:
 
-| Gravity, 1 Hz | FLUTe-coupled, 1 Hz |
+| Gravity, 1 Hz | Liner 5 psi, 1 Hz |
 |---|---|
-| ![Amplitude profile, gravity 1 Hz](figures/gravity_1hz_7v/fig6_channel_amplitude_profile.png) | ![Amplitude profile, FLUTe 1 Hz](figures/flute_5psi_1hz_7v/fig6_channel_amplitude_profile.png) |
+| ![Amplitude profile, gravity 1 Hz](figures/gravity_1hz_7v/fig6_channel_amplitude_profile.png) | ![Amplitude profile, liner 1 Hz](figures/liner_5psi_1hz_7v/fig6_channel_amplitude_profile.png) |
 
 Strain-transfer ratios (bandpass) at **1 Hz, 7 V**:
 
-| Section | Gravity | FLUTe-coupled |
-|---------|---------|---------------|
+| Section | Gravity | Liner 5 psi |
+|---------|---------|-------------|
 | Yellow | ~4% | ~103% |
 | Green | ~6% | ~184% |
 | Blue | ~3% | ~174% |
@@ -97,22 +97,22 @@ Strain-transfer ratios (bandpass) at **1 Hz, 7 V**:
 
 With the liner, transfer is order-unity (or larger, depending on section). Without it, only a few percent of the reference displacement reaches the test cables.
 
-| Gravity envelopes, 1 Hz | FLUTe envelopes, 1 Hz |
+| Gravity envelopes, 1 Hz | Liner envelopes, 1 Hz |
 |---|---|
-| ![Envelopes, gravity 1 Hz](figures/gravity_1hz_7v/fig5_envelopes.png) | ![Envelopes, FLUTe 1 Hz](figures/flute_5psi_1hz_7v/fig5_envelopes.png) |
+| ![Envelopes, gravity 1 Hz](figures/gravity_1hz_7v/fig5_envelopes.png) | ![Envelopes, liner 1 Hz](figures/liner_5psi_1hz_7v/fig5_envelopes.png) |
 
 ### 0.001 Hz — same coupling contrast at ultra-low frequency
 
 At 1 mHz the drive is slow enough that unfiltered traces include large drifts; bandpass isolates the imposed cycle. Liner-coupled sections still track the reference; gravity-only transfer stays low for most cables (Green is a partial exception).
 
-| Gravity envelopes, 0.001 Hz | FLUTe envelopes, 0.001 Hz |
+| Gravity envelopes, 0.001 Hz | Liner envelopes, 0.001 Hz |
 |---|---|
-| ![Envelopes, gravity 0.001 Hz](figures/gravity_0.001hz_7v/fig5_envelopes.png) | ![Envelopes, FLUTe 0.001 Hz](figures/flute_5psi_0.001hz_7v/fig5_envelopes.png) |
+| ![Envelopes, gravity 0.001 Hz](figures/gravity_0.001hz_7v/fig5_envelopes.png) | ![Envelopes, liner 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig5_envelopes.png) |
 
 Strain-transfer ratios (bandpass) at **0.001 Hz, 7 V**:
 
-| Section | Gravity | FLUTe-coupled |
-|---------|---------|---------------|
+| Section | Gravity | Liner 5 psi |
+|---------|---------|-------------|
 | Yellow | ~16% | ~100% |
 | Green | ~39% | ~181% |
 | Blue | ~5% | ~173% |
@@ -125,13 +125,13 @@ The same generator amplitude (7 V) is applied at two frequencies that differ by 
 - **1 Hz** — short records (~1 minute), dense oscillations, strain-rate amplitudes on the order of 10³–10⁴ nm/s in well-coupled sections.
 - **0.001 Hz** — multi-hour records (~10⁴ s), one cycle per ~1000 s, much smaller strain-rate amplitudes because the same displacement is spread over a far longer period.
 
-Spectra confirm energy at the drive frequency (example, FLUTe 1 Hz):
+Spectra confirm energy at the drive frequency (example, liner 5 psi, 1 Hz):
 
-![FFT spectra, FLUTe, 1 Hz](figures/flute_5psi_1hz_7v/fig3_fft_spectrum.png)
+![FFT spectra, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig3_fft_spectrum.png)
 
 Mean displacement time series for the same run:
 
-![Mean displacement, FLUTe, 1 Hz](figures/flute_5psi_1hz_7v/fig4_mean_displacement.png)
+![Mean displacement, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig4_mean_displacement.png)
 
 ## Analysis outputs
 
