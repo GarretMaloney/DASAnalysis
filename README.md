@@ -24,9 +24,7 @@ Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, 
 
 The lab fixture uses a **6.096 m** length of **0.1016 m (4 in) nominal Schedule 40 PVC** to simulate well casing. A strain assembly on the PVC comprises **six PiezoDrive ring actuators** arranged in **three pairs separated by 120°**, with pushrods and clamps that transfer force axially and limit bending. The PVC rides on rollers to reduce friction.
 
-Clamp spacing was set to **1.72 m**, then reduced to **0.34 m** and **0.172 m** to raise the applied strain gradient by factors of **5×** and **10×**.
-
-The actuators are driven by a **Uni-Trend UTG1022X** signal generator (sinusoid, **3.5 V** offset so the command stays non-negative), amplified **20×** by a **PiezoDrive PDu-150**. Generator amplitude spans **1–7 V** (amplifier output **20–140 V**). Drive frequencies are **0.001, 0.01, 0.1, and 1.0 Hz**, chosen to cover the band relevant to hydraulic-stimulation monitoring. Frequency, voltage, and clamp-spacing combinations are applied consistently across coupling configurations.
+The actuators are driven by a **Uni-Trend UTG1022X** signal generator (sinusoid, **3.5 V** offset so the command stays non-negative), amplified **20×** by a **PiezoDrive PDu-150**. Generator amplitude spans **1–7 V** (amplifier output **20–140 V**). Drive frequencies are **0.001, 0.01, 0.1, and 1.0 Hz**, chosen to cover the band relevant to hydraulic-stimulation monitoring. Frequency and voltage combinations are applied consistently across coupling configurations.
 
 ### Fiber cables
 
@@ -51,7 +49,7 @@ A second experiment (cables epoxied to the pipe) isolates cable-construction eff
 
 ### Acquisition
 
-Strain rate is recorded with a **Silixa iDAS** at **1 kHz**, **10 m** gauge length, and **0.25 m** channel spacing. Each frequency / displacement / clamp-spacing combination is sampled for at least **10 periods**. Raw files are National Instruments **TDMS**.
+Strain rate is recorded with a **Silixa iDAS** at **1 kHz**, **10 m** gauge length, and **0.25 m** channel spacing. Each frequency / displacement combination is sampled for at least **10 periods**. Raw files are National Instruments **TDMS**.
 
 ## Example figure sets
 
@@ -111,17 +109,9 @@ Strain-transfer ratios (bandpass) at **1 Hz, 7 V**:
 
 With the liner, transfer is order-unity (or larger, depending on section). Without it, only a few percent of the reference displacement reaches the test cables.
 
-| Gravity envelopes, 1 Hz | Liner envelopes, 1 Hz |
-|---|---|
-| ![Envelopes, gravity 1 Hz](figures/gravity_1hz_7v/fig5_envelopes.png) | ![Envelopes, liner 1 Hz](figures/liner_5psi_1hz_7v/fig5_envelopes.png) |
-
 ### 0.001 Hz — same coupling contrast at ultra-low frequency
 
-At 1 mHz the drive is slow enough that unfiltered traces include large drifts; bandpass isolates the imposed cycle. Liner-coupled sections still track the reference; gravity-only transfer stays low for most cables (Green is a partial exception).
-
-| Gravity envelopes, 0.001 Hz | Liner envelopes, 0.001 Hz |
-|---|---|
-| ![Envelopes, gravity 0.001 Hz](figures/gravity_0.001hz_7v/fig5_envelopes.png) | ![Envelopes, liner 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig5_envelopes.png) |
+At 1 mHz, liner-coupled sections still track the reference; gravity-only transfer stays low for most cables (Green is a partial exception).
 
 Strain-transfer ratios (bandpass) at **0.001 Hz, 7 V**:
 
@@ -163,7 +153,6 @@ Each folder under [`figures/`](figures/) contains the full product set from `Ana
 | `fig2_strain_waterfall_filtered.png` | Bandpass-filtered strain |
 | `fig3_fft_spectrum.png` | Displacement spectra per section |
 | `fig4_mean_displacement.png` | Section-averaged displacement (unfiltered + bandpass) |
-| `fig5_envelopes.png` | Peak envelopes and strain-transfer ratios vs reference |
 | `fig6_channel_amplitude_profile.png` | Amplitude vs channel along the fiber |
 
 ## Scripts
