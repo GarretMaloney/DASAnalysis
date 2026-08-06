@@ -54,15 +54,15 @@ Strain-transfer ratio = peak-to-peak displacement of a test section ÷ simultane
 
 ## What is being sensed
 
-DAS records **strain rate** along the fiber as a function of depth and time. Waterfall plots make that field visible: horizontal bands mark cable sections, and vertical striping shows the imposed oscillation.
+DAS records **strain rate** along the fiber; integrating and bandpass-filtering yields **strain** as a function of depth and time. The waterfalls below show that strain field: horizontal bands mark cable sections, and vertical striping shows the imposed oscillation.
 
 **1 Hz, air-inflated liner (5 psi)** — strong, localized response at each section over ~65 s:
 
-![Strain rate waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
+![Strain waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig2_strain_waterfall_filtered.png)
 
 **0.001 Hz, air-inflated liner (5 psi)** — same sections, period ~1000 s, multi-hour record:
 
-![Strain rate waterfall, liner 5 psi, 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig1_strain_rate_waterfall.png)
+![Strain waterfall, liner 5 psi, 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig2_strain_waterfall_filtered.png)
 
 ## Coupling force and strain sensitivity
 
@@ -74,11 +74,11 @@ Under gravity alone, most of the fiber is quiet away from the reference zone. Wi
 
 **Gravity (1 Hz):**
 
-![Strain rate waterfall, gravity, 1 Hz](figures/gravity_1hz_7v/fig1_strain_rate_waterfall.png)
+![Strain waterfall, gravity, 1 Hz](figures/gravity_1hz_7v/fig2_strain_waterfall_filtered.png)
 
 **Air-inflated liner, 5 psi (1 Hz):**
 
-![Strain rate waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig1_strain_rate_waterfall.png)
+![Strain waterfall, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig2_strain_waterfall_filtered.png)
 
 Channel amplitude profiles make the same point spatially. Under gravity, amplitude concentrates near the reference (~25 µm) and collapses elsewhere. With the liner, each cable section forms a clear plateau, with Green/Blue exceeding the reference:
 
