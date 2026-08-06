@@ -4,9 +4,23 @@
 
 Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer in a laboratory well-casing analog: a controlled axial strain is applied to PVC “casing,” while multiple fiber cables inside the pipe are interrogated simultaneously. Coupling is varied between **gravity seating alone** and an **air-inflated liner** that presses the cables against the wall. Example results below compare the same 7 V drive at **1 Hz** and **0.001 Hz**.
 
-Setup photographs will be added here once available.
-
 ## Experimental setup
+
+**Drive electronics** — Uni-Trend UTG1022X function generator and amplifier used to drive the piezoelectric actuators:
+
+![Signal generator and amplifier](figures/setup/setup_01.jpg)
+
+**Casing analog** — PVC pipe on supports with clamp / pushrod assemblies transferring axial strain from the actuator pairs:
+
+![PVC pipe strain fixture](figures/setup/setup_02.jpg)
+
+**Clamp detail** — Acrylic clamp plates, axial rods, and actuator wiring on the pipe:
+
+![Clamp and actuator close-up](figures/setup/setup_03.jpg)
+
+**Air-inflated liner** — Liner, fiber cables, and inflation gear used to press the cables against the pipe wall (5 psi in the example runs):
+
+![Air-inflated liner and fibers](figures/setup/setup_04.jpg)
 
 The lab fixture uses a **6.096 m** length of **0.1016 m (4 in) nominal Schedule 40 PVC** to simulate well casing. A strain assembly on the PVC comprises **six PiezoDrive ring actuators** arranged in **three pairs separated by 120°**, with pushrods and clamps that transfer force axially and limit bending. The PVC rides on rollers to reduce friction.
 
