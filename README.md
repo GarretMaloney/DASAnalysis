@@ -125,11 +125,17 @@ The same generator amplitude (7 V) is applied at two frequencies that differ by 
 - **1 Hz** — short records (~1 minute), dense oscillations, strain-rate amplitudes on the order of 10³–10⁴ nm/s in well-coupled sections.
 - **0.001 Hz** — multi-hour records (~10⁴ s), one cycle per ~1000 s, much smaller strain-rate amplitudes because the same displacement is spread over a far longer period.
 
-Spectra confirm energy at the drive frequency (example, liner 5 psi, 1 Hz):
+At **1 Hz** with the liner, spectra show a clear peak at the drive frequency on every section:
 
 ![FFT spectra, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig3_fft_spectrum.png)
 
-Mean displacement time series for the same run:
+At **0.001 Hz**, the same contrast shows up in the spectra. With the liner, each section still has a usable peak at 0.001 Hz. Under gravity alone, the test cables barely register the drive — the reference dominates and the other sections are effectively buried:
+
+| Liner 5 psi, 0.001 Hz | Gravity, 0.001 Hz |
+|---|---|
+| ![FFT spectra, liner 0.001 Hz](figures/liner_5psi_0.001hz_7v/fig3_fft_spectrum.png) | ![FFT spectra, gravity 0.001 Hz](figures/gravity_0.001hz_7v/fig3_fft_spectrum.png) |
+
+Mean displacement time series (liner 5 psi, 1 Hz):
 
 ![Mean displacement, liner 5 psi, 1 Hz](figures/liner_5psi_1hz_7v/fig4_mean_displacement.png)
 
