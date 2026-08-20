@@ -6,9 +6,9 @@ Low-frequency Distributed Acoustic Sensing (LF-DAS) can be used to monitor forma
 
 ## Experimental setup
 
-**Drive electronics** — Uni-Trend UTG1022X function generator and amplifier used to drive the piezoelectric actuators:
+**Drive electronics** — Uni-Trend UTG1022X function generator and PiezoDrive PDu150 amplifier used to drive the piezoelectric actuators:
 
-![Signal generator and amplifier](figures/setup/setup_01.jpg)
+![Signal generator and PiezoDrive PDu150 amplifier](figures/setup/setup_01.jpg)
 
 **Casing analog** — PVC pipe on supports with clamp / pushrod assemblies transferring axial strain from the actuator pairs:
 
@@ -22,20 +22,18 @@ Low-frequency Distributed Acoustic Sensing (LF-DAS) can be used to monitor forma
 
 ![Air-inflated liner and fibers](figures/setup/setup_04.jpg)
 
-The lab fixture uses a **6.096 m** length of **0.1016 m (4 in) nominal Schedule 40 PVC** to simulate well casing. A strain assembly on the PVC comprises **six PiezoDrive ring actuators** arranged in **three pairs separated by 120°**, with pushrods and clamps that transfer force axially and limit bending. The PVC rides on rollers to reduce friction.
+The lab fixture uses a **20 ft** length of **4 in nominal Schedule 40 PVC** to simulate well casing. A strain assembly on the PVC comprises **six PiezoDrive ring actuators** arranged in **three pairs separated by 120°**, with pushrods and clamps that transfer force axially and limit bending. The PVC rides on rollers to reduce friction.
 
-The actuators are driven by a **Uni-Trend UTG1022X** signal generator (sinusoid, **3.5 V** offset so the command stays non-negative), amplified **20×** by a **PiezoDrive PDu-150**. Generator amplitude spans **1–7 V** (amplifier output **20–140 V**). Drive frequencies are **0.001, 0.01, 0.1, and 1.0 Hz**, chosen to cover the band relevant to hydraulic-stimulation monitoring. Frequency and voltage combinations are applied consistently across coupling configurations.
+The actuators are driven by a **Uni-Trend UTG1022X** signal generator (sinusoid, **3.5 V** offset so the command stays non-negative), amplified **20×** by a **PiezoDrive PDu150**. Generator amplitude spans **1–7 V** (amplifier output **20–140 V**). Drive frequencies are **0.001, 0.01, 0.1, and 1.0 Hz**, chosen to cover the band relevant to hydraulic-stimulation monitoring. Frequency and voltage combinations are applied consistently across coupling configurations.
 
 ### Fiber cables
 
 Four cables run through the PVC and are **fusion-spliced into one continuous fiber** so a single interrogator records them at once:
 
-| Cable | Part number | Fiber type | Notes |
-|-------|-------------|------------|-------|
-| Simplex Singlemode Plenum | TLC S09SX01CZNPY12 | Singlemode | 1.2 mm jacket; also used as **reference**, Gorilla-taped to the PVC exterior |
-| BRUsens Acoustic | — | — | Test cable |
-| BRUsens Strain V4 | — | — | Test cable |
-| AFL FIMT | — | Singlemode (×1), Multimode (×2) | 1/8" diameter, thixotropic gel fill |
+- **Simplex Singlemode Plenum** (TLC S09SX01CZNPY12) — also used as the **reference**, Gorilla-taped to the PVC exterior
+- **BRUsens Acoustic**
+- **BRUsens Strain V4**
+- **AFL FIMT** (1/8" diameter, thixotropic gel fill; singlemode ×1, multimode ×2)
 
 In the analysis figures, section labels (**Reference**, **Yellow**, **Green**, **Blue**, **Steel**) mark 10-channel averages along that spliced fiber path.
 
@@ -49,7 +47,7 @@ A second experiment (cables epoxied to the pipe) isolates cable-construction eff
 
 ### Acquisition
 
-Strain rate is recorded with a **Silixa iDAS** at **1 kHz**, **10 m** gauge length, and **0.25 m** channel spacing. Each frequency / displacement combination is sampled for at least **10 periods**. Raw files are National Instruments **TDMS**.
+Strain rate is recorded with a **Silixa iDAS** at **1 kHz**, **~33 ft** gauge length, and **~0.82 ft** channel spacing. Each frequency / displacement combination is sampled for at least **10 periods**. Raw files are National Instruments **TDMS**.
 
 ## Example figure sets
 
