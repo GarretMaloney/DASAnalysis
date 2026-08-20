@@ -1,8 +1,8 @@
 # Coupling Dependence of DAS Strain Transfer
 
-*Thesis research on how borehole coupling controls fiber-optic strain sensitivity.*
+*Thesis research on how cable coupling controls fiber-optic strain sensitivity.*
 
-Distributed acoustic sensing (DAS) measures strain rate along an optical fiber, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer in a laboratory well-casing analog: a controlled axial strain is applied to PVC “casing,” while multiple fiber cables inside the pipe are interrogated simultaneously. Coupling is varied between **gravity seating alone** and an **air-inflated liner** that presses the cables against the wall. Example results below compare the same 7 V drive at **1 Hz** and **0.001 Hz**.
+Low-frequency Distributed Acoustic Sensing (LF-DAS) can be used to monitor formation strain when employed in a well casing during hydraulic stimulation or pump testing, but the fiber only records motion that is mechanically transferred into it. This project quantifies that transfer in a laboratory well-casing analog: a controlled axial strain is applied to PVC “casing,” while multiple fiber cables inside the pipe are interrogated simultaneously. Coupling is varied between **gravity seating alone** and an **air-inflated liner** that presses the cables against the wall. Example results below compare the same 7 V drive at **1 Hz** and **0.001 Hz**.
 
 ## Experimental setup
 
